@@ -1,0 +1,8 @@
+C:\Users\vhavu\Music\Maze\Maze\Maze\bin\Debug\Maze.exe.config
+C:\Users\vhavu\Music\Maze\Maze\Maze\bin\Debug\Maze.exe
+C:\Users\vhavu\Music\Maze\Maze\Maze\bin\Debug\Maze.pdb
+C:\Users\vhavu\Music\Maze\Maze\Maze\obj\Debug\Maze.csproj.AssemblyReference.cache
+C:\Users\vhavu\Music\Maze\Maze\Maze\obj\Debug\Maze.csproj.SuggestedBindingRedirects.cache
+C:\Users\vhavu\Music\Maze\Maze\Maze\obj\Debug\Maze.csproj.CoreCompileInputs.cache
+C:\Users\vhavu\Music\Maze\Maze\Maze\obj\Debug\Maze.exe
+C:\Users\vhavu\Music\Maze\Maze\Maze\obj\Debug\Maze.pdb
