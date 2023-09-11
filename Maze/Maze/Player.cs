@@ -8,9 +8,6 @@ namespace Maze
 {
     public class Player : Renderable
     {
-        public Position Position;
-        public char ToDraw;
-
         public Player(char symbol)
         {
             ToDraw = symbol;

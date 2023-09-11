@@ -9,6 +9,9 @@ namespace Maze
 {
     public abstract class Renderable
     {
+        protected Position Position { get; set; }
+        protected char ToDraw;
+
         protected Position SetPosition(int newX, int newY)
         {
             return new Position { X = newX, Y = newY }; 

@@ -9,11 +9,12 @@ namespace Maze
     public class Game
     {
         public static int MaxHeight = 45;
-        public static int MaxWidth = 45;
+        public static int MaxWidth = 65;
         
         static void Main(string[] args)
         {
-            Player player = new Player('X');
+            Player player = new Player('█');
+            SetOptions();
             Console.ReadKey();
 
             while (true)
@@ -38,6 +39,11 @@ namespace Maze
                             break;
                     }
                 }
+            }
+            void SetOptions()
+            {
+                Console.CursorVisible = false;
+                Console.SetWindowSize(MaxWidth, MaxHeight);
             }
         }
     }
