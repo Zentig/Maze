@@ -9,7 +9,7 @@ namespace Maze
 {
     public abstract class Renderable
     {
-        protected Position Position { get; set; }
+        public Position position;
         protected char ToDraw;
 
         protected Position SetPosition(int newX, int newY)
@@ -17,7 +17,5 @@ namespace Maze
             return new Position { X = newX, Y = newY }; 
         }
         public abstract void Draw();
-
-        public abstract void Clear(int X, int Y);
     }
 }

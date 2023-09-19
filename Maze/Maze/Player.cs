@@ -11,15 +11,15 @@ namespace Maze
         public Player(char symbol)
         {
             ToDraw = symbol;
-            Position = SetPosition(1, 1);
+            position = SetPosition(1, 1);
             Draw();
         }
         public override void Draw()
         {
-            Console.SetCursorPosition(Position.X, Position.Y);
+            Console.SetCursorPosition(position.X, position.Y);
             Console.Write(ToDraw);
         }
-        public override void Clear(int X, int Y)
+        public void Clear(int X, int Y)
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(' ');
@@ -29,24 +29,68 @@ namespace Maze
             switch (direction)
             {
                 case Direction.Left:
-                    Clear(Position.X, Position.Y);
-                    Position = SetPosition(Position.X - 1, Position.Y);
+                    if (CanMoveNewDestination(Direction.Left))
+                    {
+                        Clear(position.X, position.Y);
+                        position = SetPosition(position.X - 1, position.Y);
+                    }
                     break;
                 case Direction.Right:
-                    Clear(Position.X, Position.Y);
-                    Position = SetPosition(Position.X + 1, Position.Y);
+                    if (CanMoveNewDestination(Direction.Right))
+                    {
+                        Clear(position.X, position.Y);
+                        position = SetPosition(position.X + 1, position.Y);
+                    }
                     break;
                 case Direction.Up:
-                    Clear(Position.X, Position.Y);
-                    Position = SetPosition(Position.X, Position.Y - 1);
+                    if (CanMoveNewDestination(Direction.Up))
+                    {
+                        Clear(position.X, position.Y);
+                        position = SetPosition(position.X, position.Y - 1);
+                    }
                     break;
                 case Direction.Down:
-                    Clear(Position.X, Position.Y);
-                    Position = SetPosition(Position.X, Position.Y + 1);
+                    if (CanMoveNewDestination(Direction.Down))
+                    {
+                        Clear(position.X, position.Y);
+                        position = SetPosition(position.X, position.Y + 1);
+                    }
                     break;
             }
             Draw();
         }
-        
+        public bool CanMoveNewDestination(Direction currentDirection)
+        {
+            Position wallCheckPosition = new Position { };
+
+            switch (currentDirection)
+            {
+                case Direction.Right:
+                    wallCheckPosition.X = position.X + 1; 
+                    wallCheckPosition.Y = position.Y;
+                    break;
+                case Direction.Left:
+                    wallCheckPosition.X = position.X - 1;
+                    wallCheckPosition.Y = position.Y;
+                    break;
+                case Direction.Up:
+                    wallCheckPosition.X = position.X;
+                    wallCheckPosition.Y = position.Y - 1;
+                    break;
+                case Direction.Down:
+                    wallCheckPosition.X = position.X;
+                    wallCheckPosition.Y = position.Y + 1;
+                    break;
+            }
+            foreach (Renderable wall in Game.Map)
+            {
+                if (wall.position.X == wallCheckPosition.X &&
+                    wall.position.Y == wallCheckPosition.Y)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
