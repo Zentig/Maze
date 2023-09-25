@@ -12,10 +12,7 @@ namespace Maze
             get { return x; }
             set 
             {
-                if (value < Game.MaxWidth && value > 0)
-                {
-                    x = value;
-                }
+                x = value;
             } 
         }
         public int Y
@@ -23,10 +20,7 @@ namespace Maze
             get { return y; }
             set
             {
-                if (value > 0 && value <= Game.MaxHeight)
-                {
-                    y = value;
-                }
+                y = value;
             }
         }
     }

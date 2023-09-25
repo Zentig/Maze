@@ -8,7 +8,7 @@ namespace Maze
 { 
     public class Game
     {
-        public static int MaxHeight = 10;
+        public static int MaxHeight = 25;
         public static int MaxWidth = 25;
         public static List<Renderable> Map = new List<Renderable>();
 
@@ -28,15 +28,19 @@ namespace Maze
                     {
                         case ConsoleKey.UpArrow:
                             player.Move(Direction.Up);
+                            RenderMap();
                             break;
                         case ConsoleKey.DownArrow:
                             player.Move(Direction.Down);
+                            RenderMap();
                             break;
                         case ConsoleKey.RightArrow:
                             player.Move(Direction.Right);
+                            RenderMap();
                             break;
                         case ConsoleKey.LeftArrow:
                             player.Move(Direction.Left);
+                            RenderMap();
                             break;
                     }
                 }
@@ -44,25 +48,54 @@ namespace Maze
             void SetOptions()
             {
                 Console.CursorVisible = false;
-                Console.SetWindowSize(MaxWidth, MaxHeight);
+                Console.SetWindowSize(35, 35);
             }
             void GenerateMap(char wallSymbol)
             {
                 for (int i = 0; i < MaxHeight; i++)
                 {
-                    WallElement tempUpperWall = new WallElement(wallSymbol, i, 0);
-                    WallElement tempDownWall = new WallElement(wallSymbol, i, MaxHeight - 1);
+                    WallElement tempUpperWall = null;
+                    WallElement tempDownWall = null;
 
-                    if (!Map.Contains(tempUpperWall)) { Map.Add(tempUpperWall); }
-                    if (!Map.Contains(tempUpperWall)) { Map.Add(tempDownWall); }
+                    if (!Map.Contains(tempUpperWall)) 
+                    {
+                        tempUpperWall = new WallElement(wallSymbol, i, 0);
+                        Map.Add(tempUpperWall); 
+                    }
+                    if (!Map.Contains(tempDownWall)) 
+                    {
+                        tempDownWall = new WallElement(wallSymbol, i, MaxHeight);
+                        Map.Add(tempDownWall); 
+                    }
                 }
                 for (int i = 0; i < MaxWidth; i++)
                 {
-                    WallElement tempLeftWall = new WallElement(wallSymbol, 0, i); 
-                    WallElement tempRightWall = new WallElement(wallSymbol, MaxWidth - 1, i);
+                    WallElement tempRightWall = null;
+                    WallElement tempLeftWall = null;
 
-                    if (!Map.Contains(tempLeftWall)) { Map.Add(tempLeftWall); }
-                    if (!Map.Contains(tempRightWall)) { Map.Add(tempRightWall); }
+                    if (!Map.Contains(tempLeftWall)) 
+                    { 
+                        tempLeftWall = new WallElement(wallSymbol, 0, i); 
+                        Map.Add(tempLeftWall); 
+                    }
+                    if (!Map.Contains(tempRightWall)) 
+                    {
+                        tempRightWall = new WallElement(wallSymbol, MaxWidth, i);
+                        Map.Add(tempRightWall); 
+                    }
+                }
+                Map.Add(new WallElement(wallSymbol, 4, 4));
+                Map.Add(new WallElement(wallSymbol, 2, 8));
+                Map.Add(new WallElement(wallSymbol, 5, 9));
+                Map.Add(new WallElement(wallSymbol, 14, 4));
+                Map.Add(new WallElement(wallSymbol, 3, 21));
+                Map.Add(new WallElement(wallSymbol, 12, 19));
+            }
+            void RenderMap()
+            {
+                foreach (WallElement element in Map)
+                {
+                    element.Draw();
                 }
             }
         }

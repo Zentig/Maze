@@ -65,32 +65,33 @@ namespace Maze
 
             switch (currentDirection)
             {
-                case Direction.Right:
-                    wallCheckPosition.X = position.X + 1; 
-                    wallCheckPosition.Y = position.Y;
-                    break;
-                case Direction.Left:
-                    wallCheckPosition.X = position.X - 1;
-                    wallCheckPosition.Y = position.Y;
-                    break;
-                case Direction.Up:
-                    wallCheckPosition.X = position.X;
-                    wallCheckPosition.Y = position.Y - 1;
-                    break;
-                case Direction.Down:
-                    wallCheckPosition.X = position.X;
-                    wallCheckPosition.Y = position.Y + 1;
-                    break;
-            }
-            foreach (Renderable wall in Game.Map)
-            {
-                if (wall.position.X == wallCheckPosition.X &&
-                    wall.position.Y == wallCheckPosition.Y)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
-}
+               case Direction.Right:
+                   wallCheckPosition.X = position.X + 1; 
+                   wallCheckPosition.Y = position.Y;
+                   break;
+               case Direction.Left:
+                   wallCheckPosition.X = position.X - 1;
+                   wallCheckPosition.Y = position.Y;
+                   break;
+               case Direction.Up:
+                   wallCheckPosition.X = position.X;
+                   wallCheckPosition.Y = position.Y - 1;
+                   break;
+               case Direction.Down:
+                   wallCheckPosition.X = position.X;
+                   wallCheckPosition.Y = position.Y + 1;
+                   break;
+           }
+           foreach (Renderable wall in Game.Map)
+           {
+               if (wall.position.X == wallCheckPosition.X &&
+                   wall.position.Y == wallCheckPosition.Y)
+               {
+                   return false;
+               }
+           }
+           return true;
+       }
+   }
+} 
+
