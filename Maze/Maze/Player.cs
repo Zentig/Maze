@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Maze
 {
     public class Player : Renderable
     {
-        public Player(char symbol)
+        private List<Renderable> _map = new List<Renderable>();
+
+        public Player(char symbol, List<Renderable> map)
         {
             ToDraw = symbol;
+            _map = map;
             position = SetPosition(1, 1);
             Draw();
         }
@@ -29,28 +30,28 @@ namespace Maze
             switch (direction)
             {
                 case Direction.Left:
-                    if (CanMoveNewDestination(Direction.Left))
+                    if (CheckNewDestination(Direction.Left))
                     {
                         Clear(position.X, position.Y);
                         position = SetPosition(position.X - 1, position.Y);
                     }
                     break;
                 case Direction.Right:
-                    if (CanMoveNewDestination(Direction.Right))
+                    if (CheckNewDestination(Direction.Right))
                     {
                         Clear(position.X, position.Y);
                         position = SetPosition(position.X + 1, position.Y);
                     }
                     break;
                 case Direction.Up:
-                    if (CanMoveNewDestination(Direction.Up))
+                    if (CheckNewDestination(Direction.Up))
                     {
                         Clear(position.X, position.Y);
                         position = SetPosition(position.X, position.Y - 1);
                     }
                     break;
                 case Direction.Down:
-                    if (CanMoveNewDestination(Direction.Down))
+                    if (CheckNewDestination(Direction.Down))
                     {
                         Clear(position.X, position.Y);
                         position = SetPosition(position.X, position.Y + 1);
@@ -59,39 +60,47 @@ namespace Maze
             }
             Draw();
         }
-        public bool CanMoveNewDestination(Direction currentDirection)
+
+        private bool CheckNewDestination(Direction currentDirection)
         {
-            Position wallCheckPosition = new Position { };
+            Position checkPosition = new Position { };
 
             switch (currentDirection)
             {
                case Direction.Right:
-                   wallCheckPosition.X = position.X + 1; 
-                   wallCheckPosition.Y = position.Y;
+                   checkPosition.X = position.X + 1; 
+                   checkPosition.Y = position.Y;
                    break;
                case Direction.Left:
-                   wallCheckPosition.X = position.X - 1;
-                   wallCheckPosition.Y = position.Y;
+                   checkPosition.X = position.X - 1;
+                   checkPosition.Y = position.Y;
                    break;
                case Direction.Up:
-                   wallCheckPosition.X = position.X;
-                   wallCheckPosition.Y = position.Y - 1;
+                   checkPosition.X = position.X;
+                   checkPosition.Y = position.Y - 1;
                    break;
                case Direction.Down:
-                   wallCheckPosition.X = position.X;
-                   wallCheckPosition.Y = position.Y + 1;
+                   checkPosition.X = position.X;
+                   checkPosition.Y = position.Y + 1;
                    break;
-           }
-           foreach (Renderable wall in Game.Map)
-           {
-               if (wall.position.X == wallCheckPosition.X &&
-                   wall.position.Y == wallCheckPosition.Y)
-               {
-                   return false;
-               }
-           }
-           return true;
-       }
-   }
+            }
+            foreach (var mapElement in _map)
+            {
+                if (mapElement is WallElement &&
+                    mapElement.position.X == checkPosition.X &&
+                    mapElement.position.Y == checkPosition.Y)
+                {
+                    return false;
+                }
+                if (mapElement is WinElement &&
+                    mapElement.position.X == checkPosition.X &&
+                    mapElement.position.Y == checkPosition.Y)
+                {
+                    Environment.Exit(0);
+                }
+            }
+            return true;
+        }
+    }
 } 
 
