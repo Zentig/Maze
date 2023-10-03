@@ -10,10 +10,5 @@ namespace Maze
             position = SetPosition(x, y);
             Draw();
         }
-        public override void Draw()
-        {
-            Console.SetCursorPosition(position.X, position.Y);
-            Console.Write(ToDraw);
-        }
     }
 }

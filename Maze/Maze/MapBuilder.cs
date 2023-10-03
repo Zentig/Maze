@@ -1,30 +1,33 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 
 namespace Maze
 {
     enum BuildType
     {
         DefaultWall,
-        WinWall
+        WinWall,
+        Coin
     }
     public class MapBuilder
     {
         List<Renderable> _map;
         readonly char _wallSymbol;
         readonly char _winElementSymbol;
+        readonly char _coinSymbol;
         public readonly int MaxHeight, MaxWidth;
 
-        public MapBuilder(List<Renderable> map, 
+        public MapBuilder(List<Renderable> map,
             char wallSymbol,
             char winElementSymbol,
+            char coinSymbol,
             int maxHeight, 
             int maxWidth)
         {
             _map = map;
             _wallSymbol = wallSymbol;
             _winElementSymbol = winElementSymbol;
+            _coinSymbol = coinSymbol;
             MaxHeight = maxHeight;
             MaxWidth = maxWidth;
         }
@@ -74,6 +77,12 @@ namespace Maze
             #endregion
 
             Place(8, 18, _winElementSymbol, BuildType.WinWall);
+            Place(1, 5, _coinSymbol, BuildType.Coin);
+            Place(3, 6, _coinSymbol, BuildType.Coin);
+            Place(13, 20, _coinSymbol, BuildType.Coin);
+            Place(10, 13, _coinSymbol, BuildType.Coin);
+            Place(6, 18, _coinSymbol, BuildType.Coin);
+            Place(7, 5, _coinSymbol, BuildType.Coin);
         }
         public void RenderMap()
         {
@@ -97,6 +106,13 @@ namespace Maze
                     if (!_map.Contains(new WinElement(drawSymbol, x, y)))
                     {
                         WinElement winElement = new WinElement(drawSymbol, x, y);
+                        _map.Add(winElement);
+                    }
+                    break;
+                case BuildType.Coin:
+                    if (!_map.Contains(new CoinElement(drawSymbol, x, y)))
+                    {
+                        CoinElement winElement = new CoinElement(drawSymbol, x, y);
                         _map.Add(winElement);
                     }
                     break;

@@ -1,4 +1,6 @@
-﻿namespace Maze
+﻿using System;
+
+namespace Maze
 {
     public abstract class Renderable
     {
@@ -9,6 +11,10 @@
         {
             return new Position { X = newX, Y = newY }; 
         }
-        public abstract void Draw();
+        public void Draw()
+        {
+            Console.SetCursorPosition(position.X, position.Y);
+            Console.Write(ToDraw);
+        }
     }
 }

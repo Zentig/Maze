@@ -10,10 +10,13 @@ namespace Maze
         public const int MAX_WIDTH = 18;
         public const char WALL_SYMBOL = '█';
         public const char PLAYER_SYMBOL = 'X';
-        public const char WIN_SYMBOL = '☺';
-        public const int START_TIME = 20; // *in seconds*
+        public const char WIN_SYMBOL = 'W';
+        public const char COIN_SYMBOL = '$';
+        public const int START_TIME = 30; // *in seconds*
 
         public List<Renderable> Map = new List<Renderable>();
+        public int Coins { get; set; }
+
         Player player;
         MapBuilder mb;
         Stopwatch sw = new Stopwatch();
@@ -21,12 +24,15 @@ namespace Maze
         public void Start()
         {
             player = new Player(PLAYER_SYMBOL, Map);
-            mb = new MapBuilder(Map, WALL_SYMBOL, WIN_SYMBOL, MAX_HEIGHT, MAX_WIDTH);
+            player.OnCoinTriggered += CheckCoins;
+            mb = new MapBuilder(Map, WALL_SYMBOL, WIN_SYMBOL, COIN_SYMBOL, MAX_HEIGHT, MAX_WIDTH);
             mb.GenerateMap();
+            Coins = 0;
 
             SetOptions();
             GameLoop();
         }
+
         void GameLoop()
         {
             sw.Start();
@@ -34,6 +40,7 @@ namespace Maze
             while (true)
             {
                 CheckTime();
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo keyPressed = Console.ReadKey();
@@ -80,6 +87,14 @@ namespace Maze
                 sw.Stop();
                 Environment.Exit(0);
             }
+        }
+        public void CheckCoins(CoinElement coin)
+        {
+            Map.Remove(coin);
+            player.ReloadMap(Map);
+            Coins++;
+            Console.SetCursorPosition(20, 3);
+            Console.Write($"Coins: {Coins} ");
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Maze
     public class Player : Renderable
     {
         private List<Renderable> _map = new List<Renderable>();
+        public event Action<CoinElement> OnCoinTriggered;
 
         public Player(char symbol, List<Renderable> map)
         {
@@ -14,11 +15,6 @@ namespace Maze
             _map = map;
             position = SetPosition(1, 1);
             Draw();
-        }
-        public override void Draw()
-        {
-            Console.SetCursorPosition(position.X, position.Y);
-            Console.Write(ToDraw);
         }
         public void Clear(int X, int Y)
         {
@@ -60,7 +56,6 @@ namespace Maze
             }
             Draw();
         }
-
         private bool CheckNewDestination(Direction currentDirection)
         {
             Position checkPosition = new Position { };
@@ -86,20 +81,29 @@ namespace Maze
             }
             foreach (var mapElement in _map)
             {
-                if (mapElement is WallElement &&
-                    mapElement.position.X == checkPosition.X &&
+                if (mapElement.position.X == checkPosition.X &&
                     mapElement.position.Y == checkPosition.Y)
                 {
-                    return false;
-                }
-                if (mapElement is WinElement &&
-                    mapElement.position.X == checkPosition.X &&
-                    mapElement.position.Y == checkPosition.Y)
-                {
-                    Environment.Exit(0);
+                    if (mapElement is WallElement)
+                    {
+                        return false;
+                    }
+                    if (mapElement is WinElement)
+                    {
+                        Environment.Exit(0);
+                    }
+                    if (mapElement is CoinElement)
+                    {
+                        OnCoinTriggered?.Invoke(mapElement as CoinElement);
+                        return true;
+                    }
                 }
             }
             return true;
+        }
+        public void ReloadMap(List<Renderable> map)
+        {
+            _map = map;
         }
     }
 } 

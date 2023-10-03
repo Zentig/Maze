@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Maze
+﻿namespace Maze
 {
     public class Game
     {
